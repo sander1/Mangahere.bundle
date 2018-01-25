@@ -222,7 +222,7 @@ def MangaPage(manga, title):
 
         tagline = node.xpath('.//span/span/text()')
         chap_title = str(float(href[0].rsplit('/', 2)[1].split('c')[1]))
-        url = href[0] + '1.html'
+        url = 'http://' + href[0].split('//', 1)[-1] + '1.html'
 
         oc.add(PhotoAlbumObject(
             key=Callback(GetPhotoAlbum, url=url, title=chap_title),
@@ -249,7 +249,7 @@ def GetPhotoAlbum(url, title):
     for item in page_list:
         oc.add(CreatePhotoObject(
             title=item.text.strip(),
-            url=Callback(GetPhoto, url=item.get('value')),
+            url=Callback(GetPhoto, url='http://' + item.get('value').split('//', 1)[-1]),
             ))
 
     return oc
